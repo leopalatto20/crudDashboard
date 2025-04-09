@@ -262,24 +262,21 @@ async def obtener_tiempos(IDAlumno: int, NumNivel: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/info_alumnoS")
-async def obtener_info_alumnoS(IDAlumno: int):
+@app.get("/info_alumnos/{IDMaestro}")
+async def obtener_info_alumnos(IDMaestro: int):
     try:
         connection = get_connection()
         with connection.cursor() as cursor:
-            query = "SELECT Nombre, Genero, Grupo FROM Alumno;"
-            cursor.execute(query, (IDAlumno,))
-            result = cursor.fetchone()
+            query = "SELECT IDAlumno, Grupo, Grupo FROM Alumno WHERE IDMaestro = %s;"
+            cursor.execute(query, (IDMaestro,))
+            result = cursor.fetchall()
             if result:
-                return {
-                    "Nombre": result["Nombre"],
-                    "Genero": result["Genero"],
-                    "Grupo": result["Grupo"],
-                }
+                return result
             else:
                 return {"message": "No hay registros"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
     
 @app.delete("/alumno/{IDAlumno}")
 async def eliminar_alumno(IDAlumno: int):
@@ -294,7 +291,6 @@ async def eliminar_alumno(IDAlumno: int):
     
 @app.post("/alumno/agregar")
 async def agregar_alumno(
-    Nombre: str = Form(...),
     Genero: str = Form(...),
     Grupo: str = Form(...),
     NumLista: int = Form(...),
@@ -303,8 +299,8 @@ async def agregar_alumno(
         connection = get_connection()
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO Alumno (Nombre, Genero, Grupo, NumLista) VALUES (%s, %s, %s, %s)",
-                (Nombre, Genero, Grupo, NumLista),
+                "INSERT INTO Alumno ( Genero, Grupo, NumLista) VALUES (%s, %s, %s, %s)",
+                (Genero, Grupo, NumLista),
             )
             connection.commit()
             return {"message": "Alumno agregado"}
