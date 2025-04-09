@@ -196,7 +196,7 @@ async def obtener_nivel(num_nivel: int):
                 return []
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 
 @app.get("/pregunta/nivel1")
 async def obtener_pregunta_nivel1():
@@ -213,14 +213,15 @@ async def obtener_pregunta_nivel1():
                 return {"questions": []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 @app.get("/preguntas_completas/nivel1")
-async def obtener_pregunta_nivel1():
+async def obtener_preguntas_nivel1():
     try:
         connection = get_connection()
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT Texto, Respuesta FROM Pregunta WHERE NumNivel = 1",
+                "SELECT IDPregunta, Texto, Respuesta FROM Pregunta WHERE NumNivel = 1",
             )
             result = cursor.fetchall()
             if result:
@@ -230,8 +231,11 @@ async def obtener_pregunta_nivel1():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.post("/alumno/ultimasesion")
-async def obtener_ultima_sesion(IDAlumno: int = Form(...),):
+async def obtener_ultima_sesion(
+    IDAlumno: int = Form(...),
+):
     # Regresa el ultimo nivel en el que el alumno se queda
     try:
         connection = get_connection()
@@ -245,7 +249,7 @@ async def obtener_ultima_sesion(IDAlumno: int = Form(...),):
                 return {"level": 0}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 
 @app.get("/alumno/puntuaciones/{NumNivel}")
 async def obtener_puntuaciones(IDAlumno: int, NumNivel: int):
@@ -253,22 +257,40 @@ async def obtener_puntuaciones(IDAlumno: int, NumNivel: int):
         connection = get_connection()
         with connection.cursor() as cursor:
             query = "SELECT Aciertos, Errores FROM SesionNivel WHERE IDAlumno = %s AND NumNivel = %s ORDER BY Fecha DESC LIMIT 1;"
-            cursor.execute(query, (IDAlumno, NumNivel,))
+            cursor.execute(
+                query,
+                (
+                    IDAlumno,
+                    NumNivel,
+                ),
+            )
             result = cursor.fetchone()
             if result:
-                return {"puntuaciones": {"Aciertos": result["Aciertos"], "Errores": result["Errores"]}}
+                return {
+                    "puntuaciones": {
+                        "Aciertos": result["Aciertos"],
+                        "Errores": result["Errores"],
+                    }
+                }
             else:
                 return {"puntuaciones": []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 @app.get("/alumno/tiempos/{NumNivel}")
 async def obtener_tiempos(IDAlumno: int, NumNivel: int):
     try:
         connection = get_connection()
         with connection.cursor() as cursor:
             query = "SELECT Tiempo FROM SesionNivel WHERE IDAlumno = %s AND NumNivel = %s ORDER BY Fecha DESC LIMIT 1;"
-            cursor.execute(query, (IDAlumno, NumNivel,))
+            cursor.execute(
+                query,
+                (
+                    IDAlumno,
+                    NumNivel,
+                ),
+            )
             result = cursor.fetchone()
             if result:
                 return {"tiempos": result["Tiempo"]}
@@ -293,7 +315,7 @@ async def obtener_info_alumnos(IDMaestro: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    
+
 @app.delete("/delete_alumno/{IDAlumno}")
 async def eliminar_alumno(IDAlumno: int):
     try:
@@ -304,7 +326,8 @@ async def eliminar_alumno(IDAlumno: int):
             return {"message": "Alumno eliminado"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 @app.post("/alumno/agregar")
 async def agregar_alumno(
     Genero: str = Form(...),
@@ -322,8 +345,9 @@ async def agregar_alumno(
             return {"message": "Alumno agregado"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-#crud completo de preguntas
+
+
+# crud completo de preguntas
 @app.post("/pregunta/agregar")
 async def agregar_pregunta(
     Texto: str = Form(...),
@@ -341,7 +365,8 @@ async def agregar_pregunta(
             return {"message": "Pregunta agregada"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 @app.delete("/borrar_pregunta/{IDPregunta}")
 async def eliminar_pregunta(IDPregunta: int):
     try:
@@ -352,6 +377,7 @@ async def eliminar_pregunta(IDPregunta: int):
             return {"message": "Pregunta eliminada"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.put("/actualizar_pregunta/{IDPregunta}")
 async def actualizar_pregunta(
@@ -370,7 +396,7 @@ async def actualizar_pregunta(
             return {"message": "Pregunta actualizada"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 
 if __name__ == ("__main__"):
     uvicorn.run("BackEnd:app", host="0.0.0.0", port=8000, reload=True)
