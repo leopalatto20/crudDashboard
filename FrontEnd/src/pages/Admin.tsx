@@ -10,10 +10,12 @@ interface Alumno {
 
 const Admin: React.FC = () => {
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
+  var IDMaestro = localStorage.getItem("IDMaestro");
+
 
   const fetchAlumnos = async () => {
     try {
-      const response = await fetch('http://0.0.0.0:8000/info_alumno');
+      const response = await fetch(`http://0.0.0.0:8000/info_alumnos/${IDMaestro}`);
       const data = await response.json();
       setAlumnos(data);
     } catch (err) {
@@ -30,7 +32,6 @@ const Admin: React.FC = () => {
       <div className="row-span-full flex justify-center items-center bg-azulInstitucional p-6 text-5xl text-white">
         Admin
       </div>
-
       <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
         {alumnos.map((alumno, index) => (
           <Student
@@ -46,5 +47,4 @@ const Admin: React.FC = () => {
     </div>
   );
 };
-
 export default Admin;
