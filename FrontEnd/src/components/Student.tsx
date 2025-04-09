@@ -1,3 +1,5 @@
+import deleteIcon from "./../assets/delete.png";
+
 interface Props {
   listNum: number;
   group: string;
@@ -11,13 +13,8 @@ export default function Student({ listNum, group, gender, onDeleteButton }: Prop
       <div>{listNum}</div>
       <div>{group}</div>
       <div>{gender}</div>
-      <div className="flex justify-end gap-2">
-        <button
-          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-          onClick={onDeleteButton}
-        >
-          Eliminar
-        </button>
+      <div className="text-center items-center">
+        <img src={deleteIcon} onClick={onDeleteButton} className="hover:scale-110 h-1/4 w-1/4 cursor-pointer" />
       </div>
     </div>
   );
