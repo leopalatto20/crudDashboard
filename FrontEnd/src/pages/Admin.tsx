@@ -10,10 +10,12 @@ interface Alumno {
 
 const Admin: React.FC = () => {
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
+  var IDMaestro = localStorage.getItem("IDMaestro");
+
 
   const fetchAlumnos = async () => {
     try {
-      const response = await fetch('http://0.0.0.0:8000/info_alumno');
+      const response = await fetch(`http://0.0.0.0:8000/info_alumnos/${IDMaestro}`);
       const data = await response.json();
       setAlumnos(data);
     } catch (err) {
