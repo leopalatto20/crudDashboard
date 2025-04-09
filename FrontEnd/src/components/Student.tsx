@@ -13,7 +13,7 @@ export default function Student({ listNum, group, gender, onDeleteButton }: Prop
       <div>{listNum}</div>
       <div>{group}</div>
       <div>{gender}</div>
-      <div className="text-center items-center">
+      <div className="text-center">
         <img src={deleteIcon} onClick={onDeleteButton} className="hover:scale-125 h-1/4 w-1/4 cursor-pointer duration-200" />
       </div>
     </div>

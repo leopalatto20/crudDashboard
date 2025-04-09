@@ -73,7 +73,32 @@ const Admin: React.FC = () => {
     } catch (err) {
       console.error("Error al obtener la informacion de las preguntas", err);
     }
-  }
+  };
+
+  const editPregunta = async (IDPregunta: number, nuevoTexto: string, nuevaRespuesta: string) => {
+    try {
+      const formData = new FormData();
+      formData.append("Texto", nuevoTexto);
+      formData.append("Respuesta", nuevaRespuesta);
+
+      await axios.put(
+        `http://localhost:8000/actualizar_pregunta/${IDPregunta}`,
+        formData
+      );
+
+      // Actualiza la lista localmente
+      setPreguntas((prevPreguntas) =>
+        prevPreguntas.map((p) =>
+          p.IDPregunta === IDPregunta
+            ? { ...p, Texto: nuevoTexto, Respuesta: nuevaRespuesta }
+            : p
+        )
+      );
+      console.log("Pregunta actualizada");
+    } catch (err) {
+      console.error("Error al actualizar la pregunta:", err);
+    }
+  };
 
   useEffect(() => {
     fetchAlumnos();
@@ -134,7 +159,9 @@ const Admin: React.FC = () => {
                 texto_pregunta={pregunta.Texto}
                 respuesta={pregunta.Respuesta}
                 onDeleteButton={() => deletePregunta(pregunta.IDPregunta)}
-                onEditButton={() => console.log("Fortnite")}
+                onEditButton={(nuevoTexto, nuevaRespuesta) =>
+                  editPregunta(pregunta.IDPregunta, nuevoTexto, nuevaRespuesta)
+                }
               />
             ))}
           </div>
