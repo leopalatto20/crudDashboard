@@ -170,24 +170,71 @@ const Admin: React.FC = () => {
                 }
                 className="border rounded p-2 mb-2 w-full"
               />
-              <input
-                type="text"
-                placeholder="Género"
-                value={nuevoAlumno.Genero}
-                onChange={(e) =>
-                  setNuevoAlumno({ ...nuevoAlumno, Genero: e.target.value })
-                }
-                className="border rounded p-2 mb-2 w-full"
-              />
-              <input
-                type="text"
-                placeholder="Grupo"
-                value={nuevoAlumno.Grupo}
-                onChange={(e) =>
-                  setNuevoAlumno({ ...nuevoAlumno, Grupo: e.target.value })
-                }
-                className="border rounded p-2 mb-2 w-full"
-              />
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Género:</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="Genero"
+                      value="H"
+                      checked={nuevoAlumno.Genero === "H"}
+                      onChange={(e) =>
+                        setNuevoAlumno({ ...nuevoAlumno, Genero: e.target.value })
+                      }
+                      className="mr-2"
+                    />
+                    Hombre (H)
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="Genero"
+                      value="M"
+                      checked={nuevoAlumno.Genero === "M"}
+                      onChange={(e) =>
+                        setNuevoAlumno({ ...nuevoAlumno, Genero: e.target.value })
+                      }
+                      className="mr-2"
+                    />
+                    Mujer (M)
+                  </label>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Grupo:</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="Grupo"
+                      value="A"
+                      checked={nuevoAlumno.Grupo === "A"}
+                      onChange={(e) =>
+                        setNuevoAlumno({ ...nuevoAlumno, Grupo: e.target.value })
+                      }
+                      className="mr-2"
+                    />
+                    Grupo A
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="Grupo"
+                      value="B"
+                      checked={nuevoAlumno.Grupo === "B"}
+                      onChange={(e) =>
+                        setNuevoAlumno({ ...nuevoAlumno, Grupo: e.target.value })
+                      }
+                      className="mr-2"
+                    />
+                    Grupo B
+                  </label>
+                </div>
+              </div>
+
               <div className="flex gap-2">
                 <button
                   onClick={agregarAlumno}
@@ -248,7 +295,7 @@ const Admin: React.FC = () => {
                 className="border rounded p-2 mb-2 w-full"
               />
               <input
-                type="text"
+                type="number"
                 placeholder="Respuesta"
                 value={nuevaPregunta.Respuesta}
                 onChange={(e) =>
