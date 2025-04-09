@@ -16,13 +16,13 @@ function App() {
     const result = await maestroLogin(correo, grupo);
     if (result.Valido) {
       setIsAuthenticated(true);
-      localStorage.setItem('isAuthenticated', 'true'); // Guardar en localStorage
-      localStorage.setItem('user', JSON.stringify({ correo, grupo })); // Guardar datos del usuario
+      localStorage.setItem('isAuthenticated', 'true'); // Guardar estado de autenticación
+      localStorage.setItem('IDMaestro', result.IDMaestro); // Guardar ID del maestro
       return true;
     } else {
       setIsAuthenticated(false);
-      localStorage.setItem('isAuthenticated', 'false'); // Guardar en localStorage
-      localStorage.removeItem('user'); // Limpiar datos del usuario
+      localStorage.setItem('isAuthenticated', 'false'); // Guardar estado de autenticación
+      localStorage.removeItem('IDMaestro'); // Limpiar ID del maestro
       return false;
     }
   };

@@ -10,11 +10,15 @@ interface Alumno {
 
 const Admin: React.FC = () => {
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
-  var IDMaestro = localStorage.getItem("IDMaestro");
-
 
   const fetchAlumnos = async () => {
     try {
+      const IDMaestro = localStorage.getItem('IDMaestro'); // Obtener IDMaestro desde localStorage
+      if (!IDMaestro) {
+        console.error('No se encontró el ID del maestro en localStorage.');
+        return;
+      }
+
       const response = await fetch(`http://0.0.0.0:8000/info_alumnos/${IDMaestro}`);
       const data = await response.json();
       setAlumnos(data);
@@ -47,4 +51,5 @@ const Admin: React.FC = () => {
     </div>
   );
 };
+
 export default Admin;
