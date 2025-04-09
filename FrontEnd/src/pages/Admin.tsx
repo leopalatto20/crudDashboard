@@ -5,9 +5,9 @@ import axios from "axios";
 
 interface Alumno {
   IDAlumno: number;
-  NumLista: number,
+  NumLista: number;
   Genero: string;
-  Grupo: string
+  Grupo: string;
 }
 
 interface Preguntas {
@@ -47,12 +47,14 @@ const Admin: React.FC = () => {
       console.log(`Alumno con ID ${IDAlumno} eliminado.`);
     } catch (err) {
       console.error("Error al eliminar el alumno:", err);
-    }
-  };
+    }
+  };
 
   const fetchPreguntas = async () => {
     try {
-      const response = await fetch("http://localhost:8000/preguntas_completas/nivel1");
+      const response = await fetch(
+        "http://localhost:8000/preguntas_completas/nivel1"
+      );
       const data = await response.json();
       setPreguntas(data.questions);
     } catch (err) {
@@ -71,16 +73,16 @@ const Admin: React.FC = () => {
         Admin
       </div>
 
-<div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
-        
+      <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
         <div id="alumnos" className="p-4 bg-gray-100">
           <div className="grid-rows-2 gap-4 bg-azulInstitucional text-white text-2x justify-center items-center">
-          <div className="row-auto p-4 text-white text-2xl font-bold text-center">
-            Alumnos
-          </div>
-          <div className="row-auto p-4 text-white text-xl text-center">
-            Número de Lista      |      Grupo      |      Género
-          </div>
+            <div className="row-auto p-4 text-white text-2xl font-bold text-center">
+              Alumnos
+            </div>
+
+            <div className="row-auto p-4 text-white text-xl text-center">
+              Número de Lista | Grupo | Género
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
@@ -90,20 +92,23 @@ const Admin: React.FC = () => {
                 listNum={alumno.NumLista}
                 group={alumno.Grupo}
                 gender={alumno.Genero}
-                onDeleteButton={() =>
-                  deleteAlumno(alumno.IDAlumno)
-                }
+                onDeleteButton={() => deleteAlumno(alumno.IDAlumno)}
               />
             ))}
+          </div>
+          <div className="row-auto p-4 text-white text-xl text-center">
+            <button className="bg-blue-300 text-white px-5 py-2 rounded hover:bg-azulInstitucional w-full">
+              Agregar
+            </button>
           </div>
         </div>
 
         <div id="segunda columna" className="p-4 bg-gray-100">
-            <div className="row-auto p-4 bg-azulInstitucional text-white text-2xl font-bold justify-center items-center text-center">
-              Preguntas Nivel 1
-            </div>
+          <div className="row-auto p-4 bg-azulInstitucional text-white text-2xl font-bold justify-center items-center text-center">
+            Preguntas Nivel 1
+          </div>
 
-            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
+          <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
             {preguntas.map((pregunta) => (
               <Question
                 key={pregunta.IDPregunta}
@@ -116,6 +121,11 @@ const Admin: React.FC = () => {
             ))}
           </div>
 
+          <div className="row-auto p-4 text-white text-xl text-center">
+            <button className="bg-blue-300 text-white px-5 py-2 rounded hover:bg-azulInstitucional w-full">
+              Agregar
+            </button>
+          </div>
         </div>
       </div>
     </div>
