@@ -75,7 +75,7 @@ const Admin: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
         <div id="alumnos" className="p-4 bg-gray-100">
-          <div className="grid-rows-2 gap-4 bg-azulInstitucional text-white text-2x justify-center items-center">
+          <div className="grid-rows-2 rounded-lg gap-4 bg-azulInstitucional text-white text-2x justify-center items-center">
             <div className="row-auto p-4 text-white text-2xl font-bold text-center">
               Alumnos
             </div>
@@ -85,7 +85,7 @@ const Admin: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
+          <div className="grid grid-cols-2 gap-4 py-4 bg-gray-100">
             {alumnos.map((alumno) => (
               <Student
                 key={alumno.IDAlumno}
@@ -104,19 +104,17 @@ const Admin: React.FC = () => {
         </div>
 
         <div id="segunda columna" className="p-4 bg-gray-100">
-          <div className="row-auto p-4 bg-azulInstitucional text-white text-2xl font-bold justify-center items-center text-center">
+          <div className="row-auto p-4 rounded-lg bg-azulInstitucional text-white text-2xl font-bold justify-center items-center text-center">
             Preguntas Nivel 1
           </div>
 
-          <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
+          <div className="grid grid-cols-2 gap-4 py-4 bg-gray-100">
             {preguntas.map((pregunta) => (
               <Question
                 key={pregunta.IDPregunta}
                 texto_pregunta={pregunta.Texto}
                 respuesta={pregunta.Respuesta}
-                onDeleteButton={() =>
-                  console.log(`Eliminar pregunta con ID ${pregunta.IDPregunta}`)
-                }
+                onDeleteButton={() => console.log(`Eliminar pregunta con ID ${pregunta.IDPregunta}`)}
               />
             ))}
           </div>
