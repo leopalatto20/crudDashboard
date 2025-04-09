@@ -330,16 +330,17 @@ async def eliminar_alumno(IDAlumno: int):
 
 @app.post("/alumno/agregar")
 async def agregar_alumno(
+    NumLista: int = Form(...),
     Genero: str = Form(...),
     Grupo: str = Form(...),
-    NumLista: int = Form(...),
+    IDMaestro: int = Form(...),
 ):
     try:
         connection = get_connection()
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO Alumno ( Genero, Grupo, NumLista) VALUES (%s, %s, %s, %s)",
-                (Genero, Grupo, NumLista),
+                "INSERT INTO Alumno ( NumLista, Genero, Grupo, IDMaestro) VALUES (%s, %s, %s, %s)",
+                (NumLista, Genero, Grupo, IDMaestro),
             )
             connection.commit()
             return {"message": "Alumno agregado"}
@@ -352,7 +353,7 @@ async def agregar_alumno(
 async def agregar_pregunta(
     Texto: str = Form(...),
     Respuesta: str = Form(...),
-    NumNivel: int = Form(...),
+    NumNivel: int = 1,
 ):
     try:
         connection = get_connection()

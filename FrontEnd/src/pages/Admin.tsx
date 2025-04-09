@@ -19,6 +19,11 @@ interface Preguntas {
 const Admin: React.FC = () => {
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
   const [preguntas, setPreguntas] = useState<Preguntas[]>([]);
+  const [mostrandoFormularioAlumno, setMostrandoFormularioAlumno] = useState(false);
+  const [mostrandoFormularioPregunta, setMostrandoFormularioPregunta] = useState(false);
+
+  const [nuevoAlumno, setNuevoAlumno] = useState({ NumLista: 0, Genero: "", Grupo: "" });
+  const [nuevaPregunta, setNuevaPregunta] = useState({ Texto: "", Respuesta: "" });
 
   const fetchAlumnos = async () => {
     try {
@@ -47,6 +52,25 @@ const Admin: React.FC = () => {
       console.log(`Alumno con ID ${IDAlumno} eliminado.`);
     } catch (err) {
       console.error("Error al eliminar el alumno:", err);
+    }
+  };
+
+  const agregarAlumno = async () => {
+    const IDMaestro = localStorage.getItem("IDMaestro");
+    if (!IDMaestro) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("NumLista", nuevoAlumno.NumLista.toString());
+      formData.append("Genero", nuevoAlumno.Genero);
+      formData.append("Grupo", nuevoAlumno.Grupo);
+      formData.append("IDMaestro", IDMaestro);
+
+      await axios.post("http://localhost:8000/alumno/agregar", formData);
+      fetchAlumnos();
+      setMostrandoFormularioAlumno(false);
+    } catch (err) {
+      console.error("Error al agregar alumno:", err);
     }
   };
 
@@ -100,6 +124,19 @@ const Admin: React.FC = () => {
     }
   };
 
+  const agregarPregunta = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("Texto", nuevaPregunta.Texto);
+      formData.append("Respuesta", nuevaPregunta.Respuesta);
+      await axios.post("http://localhost:8000/pregunta/agregar", formData);
+      fetchPreguntas();
+      setMostrandoFormularioPregunta(false);
+    } catch (err) {
+      console.error("Error al agregar pregunta:", err);
+    }
+  };
+
   useEffect(() => {
     fetchAlumnos();
     fetchPreguntas();
@@ -122,6 +159,52 @@ const Admin: React.FC = () => {
               Número de Lista | Grupo | Género
             </div>
           </div>
+          {mostrandoFormularioAlumno && (
+            <div className="bg-white shadow-md rounded-lg p-4 my-4 border border-blue-300">
+              <input
+                type="number"
+                placeholder="Número de lista"
+                value={nuevoAlumno.NumLista}
+                onChange={(e) =>
+                  setNuevoAlumno({ ...nuevoAlumno, NumLista: parseInt(e.target.value) })
+                }
+                className="border rounded p-2 mb-2 w-full"
+              />
+              <input
+                type="text"
+                placeholder="Género"
+                value={nuevoAlumno.Genero}
+                onChange={(e) =>
+                  setNuevoAlumno({ ...nuevoAlumno, Genero: e.target.value })
+                }
+                className="border rounded p-2 mb-2 w-full"
+              />
+              <input
+                type="text"
+                placeholder="Grupo"
+                value={nuevoAlumno.Grupo}
+                onChange={(e) =>
+                  setNuevoAlumno({ ...nuevoAlumno, Grupo: e.target.value })
+                }
+                className="border rounded p-2 mb-2 w-full"
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={agregarAlumno}
+                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 w-full"
+                >
+                  Guardar
+                </button>
+                <button
+                  onClick={() => setMostrandoFormularioAlumno(false)}
+                  className="bg-red-400 text-white py-2 px-4 rounded hover:bg-red-600 w-full"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+
 
           <div className="grid grid-cols-2 gap-4 py-4 bg-gray-100">
             {alumnos.map((alumno) => (
@@ -135,8 +218,10 @@ const Admin: React.FC = () => {
             ))}
           </div>
           <div className="row-auto text-white text-xl text-center">
-            <button className="bg-blue-300 text-white py-2 rounded-lg hover:bg-azulInstitucional w-full">
-              Agregar
+            <button
+              onClick={() => setMostrandoFormularioAlumno(true)}
+              className="bg-blue-300 text-white py-2 rounded-lg hover:bg-azulInstitucional w-full">
+              Agregar alumno
             </button>
           </div>
         </div>
@@ -151,6 +236,43 @@ const Admin: React.FC = () => {
               Pregunta | Respuesta
             </div>
           </div>
+          {mostrandoFormularioPregunta && (
+            <div className="bg-white shadow-md rounded-lg p-4 my-4 border border-blue-300">
+              <input
+                type="text"
+                placeholder="Texto de la pregunta"
+                value={nuevaPregunta.Texto}
+                onChange={(e) =>
+                  setNuevaPregunta({ ...nuevaPregunta, Texto: e.target.value })
+                }
+                className="border rounded p-2 mb-2 w-full"
+              />
+              <input
+                type="text"
+                placeholder="Respuesta"
+                value={nuevaPregunta.Respuesta}
+                onChange={(e) =>
+                  setNuevaPregunta({ ...nuevaPregunta, Respuesta: e.target.value })
+                }
+                className="border rounded p-2 mb-2 w-full"
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={agregarPregunta}
+                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 w-full"
+                >
+                  Guardar
+                </button>
+                <button
+                  onClick={() => setMostrandoFormularioPregunta(false)}
+                  className="bg-red-400 text-white py-2 px-4 rounded hover:bg-red-600 w-full"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+
 
           <div className="grid grid-cols-2 gap-4 py-4 bg-gray-100">
             {preguntas.map((pregunta) => (
@@ -167,8 +289,10 @@ const Admin: React.FC = () => {
           </div>
 
           <div className="row-auto text-white text-xl text-center">
-            <button className="bg-blue-300 text-white py-2 rounded-lg hover:bg-azulInstitucional w-full">
-              Agregar
+            <button
+              onClick={() => setMostrandoFormularioPregunta(true)}
+              className="bg-blue-300 text-white py-2 rounded-lg hover:bg-azulInstitucional w-full">
+              Agregar pregunta
             </button>
           </div>
         </div>
