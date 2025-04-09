@@ -5,9 +5,10 @@ interface Props {
   texto_pregunta: string;
   respuesta: string;
   onDeleteButton: () => void;
+  onEditButton: () => void;
 }
 
-export default function Question({ texto_pregunta, respuesta, onDeleteButton }: Props) {
+export default function Question({ texto_pregunta, respuesta, onDeleteButton, onEditButton }: Props) {
   return (
     <div className="grid grid-cols-4 rounded-lg items-center p-4 shadow bg-white text-sm">
       <div>{texto_pregunta}</div>
@@ -16,7 +17,7 @@ export default function Question({ texto_pregunta, respuesta, onDeleteButton }: 
         <img src={deleteIcon} onClick={onDeleteButton} className="hover:scale-125 h-1/4 w-1/4 cursor-pointer duration-200" />
       </div>
       <div className="text-center items-center">
-        <img src={editIcon} onClick={onDeleteButton} className="hover:scale-125 h-1/4 w-1/4 cursor-pointer duration-200" />
+        <img src={editIcon} onClick={onEditButton} className="hover:scale-125 h-1/4 w-1/4 cursor-pointer duration-200" />
       </div>
     </div>
 
