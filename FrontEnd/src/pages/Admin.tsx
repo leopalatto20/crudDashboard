@@ -110,7 +110,6 @@ const Admin: React.FC = () => {
         formData
       );
 
-      // Actualiza la lista localmente
       setPreguntas((prevPreguntas) =>
         prevPreguntas.map((p) =>
           p.IDPregunta === IDPregunta
@@ -148,7 +147,7 @@ const Admin: React.FC = () => {
         Admin
       </div>
 
-      <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4 p-4 bg-gray-100">
         <div id="alumnos" className="p-4 bg-gray-100">
           <div className="grid-rows-2 rounded-lg gap-4 bg-azulInstitucional text-white text-2x justify-center items-center">
             <div className="row-auto p-4 text-white text-2xl font-bold text-center">
@@ -253,7 +252,7 @@ const Admin: React.FC = () => {
           )}
 
 
-          <div className="grid grid-cols-2 gap-4 py-4 bg-gray-100">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 py-4 bg-gray-100">
             {alumnos.map((alumno) => (
               <Student
                 key={alumno.IDAlumno}
@@ -321,7 +320,7 @@ const Admin: React.FC = () => {
           )}
 
 
-          <div className="grid grid-cols-2 gap-4 py-4 bg-gray-100">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 py-4 bg-gray-100">
             {preguntas.map((pregunta) => (
               <Question
                 key={pregunta.IDPregunta}
