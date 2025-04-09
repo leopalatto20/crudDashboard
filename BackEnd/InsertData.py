@@ -122,4 +122,3 @@ cargar_maestro("RegistroMaestros.xlsx")
 cargar_alumno("RegistroAlumnos.xlsx")
 cargar_nivel("RegistroNivel.xlsx")
 cargar_pregunta("RegistroPregunta.xlsx")
-
