@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@theme {
+    --color-azulInstitucional: #3A557C;
+    --color-verdeInstitucional: #8FC027;
+    --color-grisInstitucional: #A6A6A6;
+}
