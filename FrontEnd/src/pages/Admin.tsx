@@ -42,11 +42,17 @@ const Admin: React.FC = () => {
 <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
         
         <div id="alumnos" className="p-4 bg-gray-100">
-          <div className="p-4 bg-azulInstitucional text-white text-2xl font-bold">
+          <div className="grid-rows-2 gap-4 bg-azulInstitucional text-white text-2x justify-center items-center">
+          <div className="row-auto p-4 text-white text-2xl font-bold text-center">
             Alumnos
           </div>
+          <div className="row-auto p-4 text-white text-xl text-center">
+            Número de Lista      |      Grupo      |      Género
+          </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
-            {alumnos.map((alumno, index) => (
+            {alumnos.map((alumno) => (
               <Student
                 key={alumno.IDAlumno}
                 listNum={alumno.NumLista}
