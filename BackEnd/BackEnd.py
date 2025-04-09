@@ -261,5 +261,104 @@ async def obtener_tiempos(IDAlumno: int, NumNivel: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@app.get("/info_alumnoS")
+async def obtener_info_alumnoS(IDAlumno: int):
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            query = "SELECT Nombre, Genero, Grupo FROM Alumno;"
+            cursor.execute(query, (IDAlumno,))
+            result = cursor.fetchone()
+            if result:
+                return {
+                    "Nombre": result["Nombre"],
+                    "Genero": result["Genero"],
+                    "Grupo": result["Grupo"],
+                }
+            else:
+                return {"message": "No hay registros"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.delete("/alumno/{IDAlumno}")
+async def eliminar_alumno(IDAlumno: int):
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM Alumno WHERE IDAlumno = %s", (IDAlumno,))
+            connection.commit()
+            return {"message": "Alumno eliminado"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/alumno/agregar")
+async def agregar_alumno(
+    Nombre: str = Form(...),
+    Genero: str = Form(...),
+    Grupo: str = Form(...),
+    NumLista: int = Form(...),
+):
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Alumno (Nombre, Genero, Grupo, NumLista) VALUES (%s, %s, %s, %s)",
+                (Nombre, Genero, Grupo, NumLista),
+            )
+            connection.commit()
+            return {"message": "Alumno agregado"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+#crud completo de preguntas
+@app.post("/pregunta/agregar")
+async def agregar_pregunta(
+    Texto: str = Form(...),
+    Respuesta: str = Form(...),
+    NumNivel: int = Form(...),
+):
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Pregunta (Texto, Respuesta, NumNivel) VALUES (%s, %s, %s)",
+                (Texto, Respuesta, NumNivel),
+            )
+            connection.commit()
+            return {"message": "Pregunta agregada"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.delete("/borrar_pregunta/{IDPregunta}")
+async def eliminar_pregunta(IDPregunta: int):
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM Pregunta WHERE IDPregunta = %s", (IDPregunta,))
+            connection.commit()
+            return {"message": "Pregunta eliminada"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/actualizar_pregunta/{IDPregunta}")
+async def actualizar_pregunta(
+    IDPregunta: int,
+    Texto: str = Form(...),
+    Respuesta: str = Form(...),
+):
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE Pregunta SET Texto = %s, Respuesta = %s WHERE IDPregunta = %s",
+                (Texto, Respuesta, IDPregunta),
+            )
+            connection.commit()
+            return {"message": "Pregunta actualizada"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
 if __name__ == ("__main__"):
     uvicorn.run("BackEnd:app", host="0.0.0.0", port=8000, reload=True)
