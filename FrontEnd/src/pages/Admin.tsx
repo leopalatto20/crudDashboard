@@ -12,7 +12,7 @@ interface Alumno {
 
 interface Preguntas {
   IDPregunta: number;
-  Pregunta: string;
+  Texto: string;
   Respuesta: string;
 }
 
@@ -99,15 +99,15 @@ const Admin: React.FC = () => {
         </div>
 
         <div id="segunda columna" className="p-4 bg-gray-100">
-            <div className="row-auto p-4 bg-azulInstitucional text-white text-2xl font-bold justify-center items-center">
-              Preguntas Nivel1
+            <div className="row-auto p-4 bg-azulInstitucional text-white text-2xl font-bold justify-center items-center text-center">
+              Preguntas Nivel 1
             </div>
 
             <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
             {preguntas.map((pregunta) => (
               <Question
                 key={pregunta.IDPregunta}
-                texto_pregunta={pregunta.Pregunta}
+                texto_pregunta={pregunta.Texto}
                 respuesta={pregunta.Respuesta}
                 onDeleteButton={() =>
                   console.log(`Eliminar pregunta con ID ${pregunta.IDPregunta}`)
