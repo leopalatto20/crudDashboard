@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Student from "../components/Student";
+import Question from "../components/Question";
+import axios from "axios";
 
 interface Alumno {
   IDAlumno: number;
@@ -8,8 +10,15 @@ interface Alumno {
   Grupo: string
 }
 
+interface Preguntas {
+  IDPregunta: number;
+  Pregunta: string;
+  Respuesta: string;
+}
+
 const Admin: React.FC = () => {
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
+  const [preguntas, setPreguntas] = useState<Preguntas[]>([]);
 
   const fetchAlumnos = async () => {
     try {
@@ -29,8 +38,31 @@ const Admin: React.FC = () => {
     }
   };
 
+  const deleteAlumno = async (IDAlumno: number) => {
+    try {
+      await axios.delete(`http://localhost:8000/delete_alumno/${IDAlumno}`);
+      setAlumnos((prevAlumnos) =>
+        prevAlumnos.filter((alumno) => alumno.IDAlumno !== IDAlumno)
+      );
+      console.log(`Alumno con ID ${IDAlumno} eliminado.`);
+    } catch (err) {
+      console.error("Error al eliminar el alumno:", err);
+    }
+  };
+
+  const fetchPreguntas = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/pregunta/nivel1");
+      const data = await response.json();
+      setPreguntas(data);
+    } catch (err) {
+      console.error("Error al obtener la información de las preguntas:", err);
+    }
+  };
+
   useEffect(() => {
     fetchAlumnos();
+    fetchPreguntas();
   }, []);
 
   return (
@@ -59,10 +91,7 @@ const Admin: React.FC = () => {
                 group={alumno.Grupo}
                 gender={alumno.Genero}
                 onDeleteButton={() =>
-                  console.log(`Eliminar alumno ${alumno.IDAlumno}`)
-                }
-                onEditButton={() =>
-                  console.log(`Editar alumno ${alumno.IDAlumno}`)
+                  deleteAlumno(alumno.IDAlumno)
                 }
               />
             ))}
@@ -71,9 +100,23 @@ const Admin: React.FC = () => {
 
         <div id="segunda columna" className="p-4 bg-gray-100">
             <div className="row-auto p-4 bg-azulInstitucional text-white text-2xl font-bold justify-center items-center">
-              Preguntas
+              Preguntas Nivel1
             </div>
+
+            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100">
+            {preguntas.map((pregunta) => (
+              <Question
+                key={pregunta.IDPregunta}
+                texto_pregunta={pregunta.Pregunta}
+                respuesta={pregunta.Respuesta}
+                onDeleteButton={() =>
+                  console.log(`Eliminar pregunta con ID ${pregunta.IDPregunta}`)
+                }
+              />
+            ))}
           </div>
+
+        </div>
       </div>
     </div>
   );
