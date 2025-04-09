@@ -19,7 +19,7 @@ const Admin: React.FC = () => {
         return;
       }
 
-      const response = await fetch(`http://0.0.0.0:8000/info_alumnos/${IDMaestro}`);
+      const response = await fetch(`http://localhost:8000/info_alumnos/${IDMaestro}`);
       const data = await response.json();
       setAlumnos(data);
     } catch (err) {
