@@ -213,6 +213,22 @@ async def obtener_pregunta_nivel1():
                 return {"questions": []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/preguntas_completas/nivel1")
+async def obtener_pregunta_nivel1():
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT Texto, Respuesta FROM Pregunta WHERE NumNivel = 1",
+            )
+            result = cursor.fetchall()
+            if result:
+                return {"questions": result}
+            else:
+                return {"questions": []}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/alumno/ultimasesion")
 async def obtener_ultima_sesion(IDAlumno: int = Form(...),):
@@ -278,7 +294,7 @@ async def obtener_info_alumnos(IDMaestro: int):
         raise HTTPException(status_code=500, detail=str(e))
 
     
-@app.delete("/alumno/{IDAlumno}")
+@app.delete("/delete_alumno/{IDAlumno}")
 async def eliminar_alumno(IDAlumno: int):
     try:
         connection = get_connection()
