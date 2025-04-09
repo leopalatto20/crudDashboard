@@ -9,7 +9,7 @@ interface Props {
 
 export default function Question({ texto_pregunta, respuesta, onDeleteButton }: Props) {
   return (
-    <div className="grid grid-cols-4 rounded-lg items-center gap-4 p-4 shadow bg-white text-sm">
+    <div className="grid grid-cols-4 rounded-lg items-center p-4 shadow bg-white text-sm">
       <div>{texto_pregunta}</div>
       <div>{respuesta}</div>
       <div className="text-center items-center">
