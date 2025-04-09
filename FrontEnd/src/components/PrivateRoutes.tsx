@@ -1,7 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-// NOTE: Estado global para bloquear la ruta de /dashboard si todavia no hay un login
-
 interface PrivateRoutesProps {
   isAuthenticated: boolean;
 }

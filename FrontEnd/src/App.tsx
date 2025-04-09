@@ -4,6 +4,7 @@ import PrivateRoutes from './components/PrivateRoutes'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import { maestroLogin } from './services/authservice'
+import Admin from './pages/Admin';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -27,6 +28,8 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Admin />} />
+
         </Route>
         <Route path="/login" element={<Login onLogin={onLogin} />} />
       </Routes>
