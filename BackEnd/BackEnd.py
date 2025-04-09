@@ -267,7 +267,7 @@ async def obtener_info_alumnos(IDMaestro: int):
     try:
         connection = get_connection()
         with connection.cursor() as cursor:
-            query = "SELECT IDAlumno, Grupo, Grupo FROM Alumno WHERE IDMaestro = %s;"
+            query = "SELECT IDAlumno, NumLista, Genero, Grupo FROM Alumno WHERE IDMaestro = %s;"
             cursor.execute(query, (IDMaestro,))
             result = cursor.fetchall()
             if result:
