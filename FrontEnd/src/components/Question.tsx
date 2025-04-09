@@ -1,13 +1,13 @@
 interface Props {
-  pregunta: string;
+  texto_pregunta: string;
   respuesta: string;
   onDeleteButton: () => void;
 }
 
-export default function Question({ pregunta, respuesta, onDeleteButton }: Props) {
+export default function Question({ texto_pregunta, respuesta, onDeleteButton }: Props) {
   return (
     <div className="grid grid-cols-3 items-center gap-4 p-3 shadow bg-white text-sm">
-      <div>{pregunta}</div>
+      <div>{texto_pregunta}</div>
       <div>{respuesta}</div>
       <div className="flex justify-end gap-2">
         <button

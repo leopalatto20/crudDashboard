@@ -52,9 +52,9 @@ const Admin: React.FC = () => {
 
   const fetchPreguntas = async () => {
     try {
-      const response = await fetch("http://localhost:8000/pregunta/nivel1");
+      const response = await fetch("http://localhost:8000/preguntas_completas/nivel1");
       const data = await response.json();
-      setPreguntas(data);
+      setPreguntas(data.questions);
     } catch (err) {
       console.error("Error al obtener la información de las preguntas:", err);
     }
