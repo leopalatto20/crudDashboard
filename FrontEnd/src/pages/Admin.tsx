@@ -58,12 +58,14 @@ const Admin: React.FC = () => {
   const agregarAlumno = async () => {
     const IDMaestro = localStorage.getItem("IDMaestro");
     if (!IDMaestro) return;
+    const Grupo = localStorage.getItem('Grupo');
+    if (!Grupo) return;
 
     try {
       const formData = new FormData();
       formData.append("NumLista", nuevoAlumno.NumLista.toString());
       formData.append("Genero", nuevoAlumno.Genero);
-      formData.append("Grupo", nuevoAlumno.Grupo);
+      formData.append("Grupo", Grupo);
       formData.append("IDMaestro", IDMaestro);
 
       await axios.post("http://localhost:8000/alumno/agregar", formData);
@@ -158,6 +160,19 @@ const Admin: React.FC = () => {
               Número de Lista | Grupo | Género
             </div>
           </div>
+
+
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 py-4 bg-gray-100">
+            {alumnos.map((alumno) => (
+              <Student
+                key={alumno.IDAlumno}
+                listNum={alumno.NumLista}
+                group={alumno.Grupo}
+                gender={alumno.Genero}
+                onDeleteButton={() => deleteAlumno(alumno.IDAlumno)}
+              />
+            ))}
+          </div>
           {mostrandoFormularioAlumno && (
             <div className="bg-white shadow-md rounded-lg p-4 my-4 border border-blue-300">
               <input
@@ -201,39 +216,6 @@ const Admin: React.FC = () => {
                   </label>
                 </div>
               </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2">Grupo:</label>
-                <div className="flex gap-4">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="Grupo"
-                      value="A"
-                      checked={nuevoAlumno.Grupo === "A"}
-                      onChange={(e) =>
-                        setNuevoAlumno({ ...nuevoAlumno, Grupo: e.target.value })
-                      }
-                      className="mr-2"
-                    />
-                    Grupo A
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="Grupo"
-                      value="B"
-                      checked={nuevoAlumno.Grupo === "B"}
-                      onChange={(e) =>
-                        setNuevoAlumno({ ...nuevoAlumno, Grupo: e.target.value })
-                      }
-                      className="mr-2"
-                    />
-                    Grupo B
-                  </label>
-                </div>
-              </div>
-
               <div className="flex gap-2">
                 <button
                   onClick={agregarAlumno}
@@ -251,18 +233,6 @@ const Admin: React.FC = () => {
             </div>
           )}
 
-
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 py-4 bg-gray-100">
-            {alumnos.map((alumno) => (
-              <Student
-                key={alumno.IDAlumno}
-                listNum={alumno.NumLista}
-                group={alumno.Grupo}
-                gender={alumno.Genero}
-                onDeleteButton={() => deleteAlumno(alumno.IDAlumno)}
-              />
-            ))}
-          </div>
           <div className="row-auto text-white text-xl text-center">
             <button
               onClick={() => setMostrandoFormularioAlumno(true)}
@@ -281,6 +251,21 @@ const Admin: React.FC = () => {
             <div className="row-auto p-4 text-white text-xl text-center">
               Pregunta | Respuesta
             </div>
+          </div>
+
+
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 py-4 bg-gray-100">
+            {preguntas.map((pregunta) => (
+              <Question
+                key={pregunta.IDPregunta}
+                texto_pregunta={pregunta.Texto}
+                respuesta={pregunta.Respuesta}
+                onDeleteButton={() => deletePregunta(pregunta.IDPregunta)}
+                onEditButton={(nuevoTexto, nuevaRespuesta) =>
+                  editPregunta(pregunta.IDPregunta, nuevoTexto, nuevaRespuesta)
+                }
+              />
+            ))}
           </div>
           {mostrandoFormularioPregunta && (
             <div className="bg-white shadow-md rounded-lg p-4 my-4 border border-blue-300">
@@ -318,22 +303,6 @@ const Admin: React.FC = () => {
               </div>
             </div>
           )}
-
-
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 py-4 bg-gray-100">
-            {preguntas.map((pregunta) => (
-              <Question
-                key={pregunta.IDPregunta}
-                texto_pregunta={pregunta.Texto}
-                respuesta={pregunta.Respuesta}
-                onDeleteButton={() => deletePregunta(pregunta.IDPregunta)}
-                onEditButton={(nuevoTexto, nuevaRespuesta) =>
-                  editPregunta(pregunta.IDPregunta, nuevoTexto, nuevaRespuesta)
-                }
-              />
-            ))}
-          </div>
-
           <div className="row-auto text-white text-xl text-center">
             <button
               onClick={() => setMostrandoFormularioPregunta(true)}

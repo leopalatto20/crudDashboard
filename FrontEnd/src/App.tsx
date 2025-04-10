@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import PrivateRoutes from './components/PrivateRoutes'
 import Dashboard from './pages/Dashboard'
@@ -18,6 +18,7 @@ function App() {
       setIsAuthenticated(true);
       localStorage.setItem('isAuthenticated', 'true'); // Guardar estado de autenticación
       localStorage.setItem('IDMaestro', result.IDMaestro); // Guardar ID del maestro
+      localStorage.setItem('Grupo', grupo);
       return true;
     } else {
       setIsAuthenticated(false);
