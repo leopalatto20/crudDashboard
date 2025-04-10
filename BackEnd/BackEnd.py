@@ -348,7 +348,6 @@ async def agregar_alumno(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# crud completo de preguntas
 @app.post("/pregunta/agregar")
 async def agregar_pregunta(
     Texto: str = Form(...),
