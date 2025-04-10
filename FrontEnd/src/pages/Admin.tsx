@@ -154,7 +154,7 @@ const Admin: React.FC = () => {
               Alumnos
             </div>
 
-            <div className="row-auto p-4 text-white text-xl text-center">
+            <div className="row-auto p-4 text-white md:text-xl text-sm text-center">
               Número de Lista | Grupo | Género
             </div>
           </div>

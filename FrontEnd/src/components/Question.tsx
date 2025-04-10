@@ -22,8 +22,8 @@ export default function Question({ texto_pregunta, respuesta, onDeleteButton, on
   };
 
   return (
-    <div className="grid grid-cols-4 rounded-lg items-center p-4 shadow bg-white text-sm">
-      <div>
+    <div className="grid md:grid-cols-4 grid-cols-2 md:gap-0 gap-5 rounded-lg items-center p-4 shadow bg-white md:text-sm text-xs">
+      <div className="text-center">
         {editMode ? (
           <input
             value={newTexto}
@@ -35,7 +35,7 @@ export default function Question({ texto_pregunta, respuesta, onDeleteButton, on
           texto_pregunta
         )}
       </div>
-      <div>
+      <div className="text-center">
         {editMode ? (
           <input
             value={newRespuesta}
@@ -51,7 +51,7 @@ export default function Question({ texto_pregunta, respuesta, onDeleteButton, on
         <img
           src={deleteIcon}
           onClick={onDeleteButton}
-          className="hover:scale-125 h-1/4 w-1/4 mx-auto cursor-pointer duration-200"
+          className="hover:scale-125 md:h-1/4 md:w-1/4 h-1/5 w-1/5 mx-auto cursor-pointer duration-200"
         />
       </div>
       <div className="text-center">
@@ -59,13 +59,13 @@ export default function Question({ texto_pregunta, respuesta, onDeleteButton, on
           <img
             src={saveIcon}
             onClick={handleSave}
-            className="hover:scale-125 h-1/4 w-1/4 mx-auto cursor-pointer duration-200"
+            className="hover:scale-125 md:h-1/4 md:w-1/4 h-1/5 w-1/5 mx-auto cursor-pointer duration-200"
           />
         ) : (
           <img
             src={editIcon}
             onClick={() => setEditMode(true)}
-            className="hover:scale-125 h-1/4 w-1/4 mx-auto cursor-pointer duration-200"
+            className="hover:scale-125 md:h-1/4 md:w-1/4 w-1/5 h-1/5 mx-auto cursor-pointer duration-200"
           />
         )}
       </div>
